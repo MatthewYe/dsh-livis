@@ -1,0 +1,27 @@
+{
+  "name": "dsh-livis-protocol",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone Livis (Hermes v0.1.9 compatible) relay protocol library: IDaaS device auth, WSS relay client, result delivery, file upload.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./protocol": "./src/protocol.js",
+    "./auth": "./src/auth.js",
+    "./upload": "./src/upload.js",
+    "./state": "./src/state.js",
+    "./testing/fake-hub": "./src/testing/fake-hub.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "verify": "node scripts/verify.mjs"
+  },
+  "devDependencies": {
+    "ws": "^8.18.0"
+  }
+}

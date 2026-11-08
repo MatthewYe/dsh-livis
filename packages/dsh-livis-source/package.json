@@ -1,0 +1,41 @@
+{
+  "name": "dsh-livis-source",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Livis glasses SourceKind plugin for dsh-superagent: inbound relay client, trigger ingestion and one-result-per-job outbound delivery.",
+  "license": "MIT",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "scripts": {
+    "test": "node --test",
+    "p3:hub": "node scripts/p3-hub.mjs",
+    "p3:drive": "node scripts/p3-drive.mjs",
+    "p4:login": "node scripts/livis-login.mjs"
+  },
+  "dependencies": {
+    "dsh-livis-protocol": "workspace:*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/schemastery": "*",
+    "zod": "*"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/schemastery": {
+      "optional": true
+    },
+    "zod": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@deepseek-ai/schemastery": "3.18.5-alpha.1",
+    "zod": "4.4.3"
+  }
+}

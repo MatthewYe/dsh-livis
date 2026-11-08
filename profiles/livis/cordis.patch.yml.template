@@ -1,0 +1,15 @@
+# Rendered livis profile patch. Substitute the dollar-brace placeholders first.
+- id: webserver
+  config:
+    host: 127.0.0.1
+    port: ${LIVIS_PORT}
+- id: dsh-superagent
+  config:
+    stateDir: ${LIVIS_STATE_DIR}
+- id: agent-default-model
+  config:
+    provider: ${LIVIS_MODEL_PROVIDER}
+    model: ${LIVIS_MODEL}
+- insert:
+    - id: dsh-livis-source
+      name: dsh-livis-source

@@ -1,0 +1,24 @@
+{
+  "name": "dsh-livis",
+  "version": "0.1.0",
+  "private": true,
+  "description": "pnpm workspace for the Livis bridge: standalone protocol library, dsh-superagent SourceKind plugin, and profile templates.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatthewYe/dsh-livis.git"
+  },
+  "homepage": "https://github.com/MatthewYe/dsh-livis#readme",
+  "bugs": {
+    "url": "https://github.com/MatthewYe/dsh-livis/issues"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "scripts": {
+    "test": "pnpm run test:protocol && pnpm run test:source",
+    "test:protocol": "pnpm --filter dsh-livis-protocol test",
+    "test:source": "pnpm --filter dsh-livis-source test"
+  }
+}

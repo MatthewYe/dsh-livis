@@ -1,0 +1,17 @@
+{
+  "name": "dsh-profile-livis",
+  "private": true,
+  "dependencies": {
+    "dsh-superagent": "link:${SUPERAGENT_CHECKOUT}",
+    "dsh-livis-source": "link:${DSH_LIVIS_REPO}/packages/dsh-livis-source"
+  },
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-web-app",
+        "dsh-superagent"
+      ]
+    }
+  }
+}

@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Runtime state, credentials and token files
+state/
+**/state/
+**/state.json
+**/client/
+**/jobs.json
+**/*.sqlite
+**/*.sqlite3
+**/*.sqlite-*
+.env
+.env.*
+!.env.example
+*.token
+*.pem
+*.key
+
+# Local evidence, logs and backups
+.artifacts/
+*.log
+logs/
+.p1-backup/
+profiles/**/.p1-backup/
+
+# Internal working notes that are not part of the public repository
+.internal/
+
+# Profile install artifacts (the workspace lockfile at the root is tracked)
+profiles/**/node_modules/
+profiles/**/pnpm-lock.yaml
+# Rendered profile files are machine-specific and must never be committed.
+profiles/**/package.json
+profiles/**/cordis.patch.yml
+profiles/**/cordis.yml
+
+# Package-manager lockfiles other than the workspace pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# OS noise
+.DS_Store
+Thumbs.db

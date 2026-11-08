@@ -1,0 +1,33 @@
+dsh-livis
+=========
+
+Copyright (c) 2026 MatthewYe
+
+This is an unofficial, independent community project. It is not affiliated
+with, endorsed by, sponsored by, or supported by 理想汽车 (Li Auto) or any of
+its subsidiaries or affiliates.
+
+"Livis", "理想同学", and related names, logos, and marks are the property of
+their respective owners. They are used here only in a descriptive sense to
+identify the relay protocol and device family this project interoperates with.
+No trademark license is granted.
+
+Protocol provenance
+-------------------
+
+- The wire behavior implemented by `packages/dsh-livis-protocol` is based on
+  observation of the official Hermes desktop adapter v0.1.9. The official
+  adapter package we inspected did not include a license file; it was used only
+  as a behavioral reference.
+- Wire details were cross-checked against the MIT-licensed
+  [`dsh-livis-connector`](https://github.com/fyy99/dsh-livis-connector)
+  reference.
+- This project's implementation is an independent rewrite: no source code was
+  copied from either project.
+- The vendor protocol is undocumented and may change, break, rate-limit, or
+  block this client at any time, without notice.
+
+Use at your own risk. You are responsible for complying with the terms of
+service of any service you connect to, for the account and device you bind,
+and for any data you send through the bridge. The software is provided "AS IS",
+without warranty of any kind, as stated in the LICENSE file.
