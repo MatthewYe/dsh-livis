@@ -231,6 +231,28 @@ test('G3-5: two concurrent jobs keep their own channel, and a restart never dupl
   assert.equal(h.relay.job('job-g35-a').status, 'final')
 })
 
+test('G3-6: a reply addressed at the job that opened a resumed ticket lands on its newest outstanding job', async (t) => {
+  const h = await harness({ config: { pendingTimeoutMs: 5000 } })
+  t.after(() => h.dispose())
+  await h.start()
+  h.hub.send(frameFor({ jobId: 'job-g36-a', msgId: 'msg-a', content: 'first', fromNodeId: 'user-g36' }))
+  const first = await waitFor(() => h.triggers[0], { label: 'first trigger' })
+  assert.equal(await h.kind.channel.send({ commands: {} }, outbound('acknowledgement', first, 'ok')), 'sent')
+  assert.equal(await h.kind.channel.send({ commands: {} }, outbound('reply', first, 'pong-a')), 'sent')
+  assert.equal(h.relay.job('job-g36-a').status, 'final')
+
+  h.hub.send(frameFor({ jobId: 'job-g36-b', msgId: 'msg-b', content: 'again', fromNodeId: 'user-g36' }))
+  await waitFor(() => h.triggers.length === 2, { label: 'second trigger' })
+
+  // The engine answers the resumed ticket on its Thread, still addressing the job that opened it.
+  assert.equal(await h.kind.channel.send({ commands: {} }, outbound('reply', first, 'pong-b')), 'sent')
+  assert.equal(h.relay.job('job-g36-b').status, 'final')
+  assert.equal(h.relay.job('job-g36-b').finalText, 'pong-b')
+  assert.equal(h.relay.job('job-g36-a').finalText, 'pong-a', 'the closed job keeps its own answer')
+  const byJob = new Map(h.hub.results.map((entry) => [entry.frame.metadata.job_id, JSON.parse(entry.frame.payload.data).text]))
+  assert.equal(byJob.get('job-g36-b'), 'pong-b')
+})
+
 test('P4 W1/W2: all official wake-word variants are stripped before the Trigger', () => {
   const strippedCases = [
     ['让我的个人agent只回答poon不要修改文件', '只回答poon不要修改文件'],

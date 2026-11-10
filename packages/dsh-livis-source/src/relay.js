@@ -220,7 +220,7 @@ export class LivisRelay {
       case 'acknowledgement':
         return this.#accept(jobId)
       case 'reply':
-        return this.#reply(jobId, String(message?.text ?? ''))
+        return this.#reply(jobId, String(message?.text ?? ''), String(message?.channel?.thread ?? ''))
       case 'notice':
         return 'gone'
       default:
@@ -355,11 +355,22 @@ export class LivisRelay {
     return 'sent'
   }
 
-  /** @param {string} jobId @param {string} text */
-  async #reply(jobId, text) {
-    const job = this.#store.get(jobId)
-    if (!job) return 'gone'
-    if (job.status === 'final' || job.status === 'canceled' || job.status === 'failed') return 'gone'
+  /** @param {string} jobId @param {string} text @param {string} [thread] */
+  async #reply(jobId, text, thread = '') {
+    let job = this.#store.get(jobId)
+    // A ticket that a follow-up resumed still addresses the job that opened it,
+    // which is already final. The engine answers the Thread's latest question, so
+    // fall back to its newest outstanding job instead of dropping the reply.
+    if (!job || job.status === 'final' || job.status === 'canceled' || job.status === 'failed') {
+      const outstanding = this.#store.list()
+        .filter((candidate) => candidate.status === 'pending' || candidate.status === 'accepted')
+        .filter((candidate) => !thread || candidate.thread === thread)
+        .sort((left, right) => String(left.receivedAt).localeCompare(String(right.receivedAt)))
+      const latest = outstanding.at(-1)
+      if (!latest) return 'gone'
+      job = latest
+      jobId = latest.jobId
+    }
     if (job.finalSending) return 'sent'
     this.#clearTimer(jobId)
     job.finalSending = true
